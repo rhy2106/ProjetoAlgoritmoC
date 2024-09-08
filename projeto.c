@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+//Teste para pegar as informações de um arquivo txt
+
 typedef struct{
     char nome[100];
     long int cpf;
@@ -47,7 +49,6 @@ void build(char *linha, Pessoa *l){
         i++;
     }
 }
-
 
 int main(){
     Pessoa l[10];
