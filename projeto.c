@@ -22,9 +22,9 @@ typedef struct {
 typedef struct {
   char nome[100];
   char moeda[10];
-  char dia[10];
-  char hora[5];
-  char acao[1];
+  char dia[11];
+  char hora[6];
+  char acao[2];
   long int cpf;
   float valor;
   float reais;
