@@ -1,221 +1,266 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-typedef struct {
-  char nome[100];
-  char senha[6];
-  long int cpf;
-  float reais;
-  float btc;
-  float eth;
-  float xrp;
+typedef struct{
+    char moeda[10];
+    char dia[11];
+    char hora[6];
+    char acao[2];
+    float valor;
+    float reais;
+    float btc;
+    float eth;
+    float xrp;
+    float ct;
+    float tx;
+} Extrato;
+typedef struct{
+    Extrato extratos[100];
+    char nome[100];
+    int senha;
+    int cont; // quantidade de extratos
+    long int cpf;
+    float reais;
+    float btc;
+    float eth;
+    float xrp;
 } Pessoa;
-
-typedef struct {
-  char nome[10];
-  float ct;
-  float txc;
-  float txv;
+typedef struct{
+    char nome[10];
+    float ct;
+    float txc;
+    float txv;
 } Moeda;
 
-typedef struct {
-  char nome[100];
-  char moeda[10];
-  char dia[11];
-  char hora[6];
-  char acao[2];
-  long int cpf;
-  float valor;
-  float reais;
-  float btc;
-  float eth;
-  float xrp;
-  float ct;
-  float tx;
-} Extrato;
-
-void limparString(char *p, int tam) {
-  // preenche toda a string com valor nulo para retirar o lixo
-  int i;
-  for (i = 0; i < tam; i++) {
-    p[i] = '\0';
-  }
-}
-
-void subString(char *tmp, char *linha, int comeco, int fim) {
-  // recebe a variavel em que a substring vai ser armazenada
-  // a linha e a posição em que a substring está
-  char palavra[100];
-  int i;
-  limparString(palavra, 100);
-  for (i = comeco; i < fim; i++) {
-    palavra[i - comeco] = linha[i];
-  }
-  // esta operação (i - comeco) é feita para que a substring
-  // seja armazenada no começo da variavel 'tmp'
-  strcat(tmp, palavra);
-}
-
-void buildP(char *linha, Pessoa *l) {
-  char tmp[100]; // tmp = substring da linha
-  int i = 0, ii = 0, cont = 0;
-  // i = index da linha, ii = index começo da substring
-  limparString(l->senha, 6);  // limpar o endereço da senha
-  limparString(l->nome, 100); // limpar o endereço do nome
-  while (linha[i] != '\0') {
-    if (linha[i] == ',' || linha[i] == '\n') {
-      limparString(tmp, 100);       // limpa a substring
-      subString(tmp, linha, ii, i); // pega a substring
-      if (cont == 0)
-        l->cpf = atol(tmp);
-      if (cont == 1)
-        strcat(l->senha, tmp);
-      if (cont == 2)
-        strcat(l->nome, tmp);
-      if (cont == 3)
-        l->reais = atof(tmp);
-      if (cont == 4)
-        l->btc = atof(tmp);
-      if (cont == 5)
-        l->eth = atof(tmp);
-      if (cont == 6)
-        l->xrp = atof(tmp);
-      cont++;
-      ii = i + 1; // começo da proxima substring
+void limparString(char *p, int tam){
+    // preenche toda a string com valor nulo para retirar o lixo
+    int i; 
+    for(i = 0; i < tam; i++){
+        p[i] = '\0';
     }
-    i++;
-  }
 }
-
-void buildM(char *linha, Moeda *m) {
-  char tmp[100]; // tmp = substring da linha
-  int i = 0, ii = 0, cont = 0;
-  // i = index da linha, ii = index começo da substring
-  limparString(m->nome, 10); // limpar o endereço do nome da moeda
-  while (linha[i] != '\0') {
-    if (linha[i] == ',' || linha[i] == '\n') {
-      limparString(tmp, 100);       // limpa a substring
-      subString(tmp, linha, ii, i); // pega a substring
-      if (cont == 0)
-        strcat(m->nome, tmp);
-      if (cont == 1)
-        m->ct = atof(tmp);
-      if (cont == 2)
-        m->txc = atof(tmp);
-      if (cont == 3)
-        m->txv = atof(tmp);
-      cont++;
-      ii = i + 1; // começo da proxima substring
+void subString(char * tmp, char *linha, int comeco, int fim){
+    // recebe a variavel em que a substring vai ser armazenada
+    // a linha e a posição em que a substring está
+    char palavra[100];
+    int i;
+    limparString(palavra,100);
+    for(i = comeco; i < fim; i++){
+        palavra[i-comeco] = linha[i];
     }
-    i++;
-  }
+    // esta operação (i - comeco) é feita para que a substring
+    // seja armazenada no começo da variavel 'tmp' 
+    strcat(tmp,palavra);
 }
-
-void buildE(char *linha, Extrato *e) {
-  char tmp[100]; // tmp = substring da linha
-  int i = 0, ii = 0, cont = 0;
-  limparString(e->nome, 100); // limpar o endereço do nome
-  limparString(e->moeda, 10); // limpar o endereço da senha
-  limparString(e->dia, 10);   // limpar o endereço da senha
-  limparString(e->hora, 5);   // limpar o endereço da senha
-  limparString(e->acao, 1);   // limpar o endereço da senha
-  while (linha[i] != '\0') {
-    if (linha[i] == ',' || linha[i] == '\n') {
-      limparString(tmp, 100);       // limpa a substring
-      subString(tmp, linha, ii, i); // pega a substring
-      // puts(tmp);
-      if (cont == 0)
-        e->cpf = atol(tmp);
-      if (cont == 1)
-        strcat(e->nome, tmp);
-      if (cont == 2)
-        strcat(e->dia, tmp);
-      if (cont == 3)
-        strcat(e->hora, tmp);
-      if (cont == 4)
-        strcat(e->acao, tmp);
-      if (cont == 5)
-        e->valor = atof(tmp);
-      if (cont == 6)
-        strcat(e->moeda, tmp);
-      if (cont == 7)
-        e->ct = atof(tmp);
-      if (cont == 8)
-        e->tx = atof(tmp);
-      if (cont == 9)
-        e->reais = atof(tmp);
-      if (cont == 10)
-        e->btc = atof(tmp);
-      if (cont == 11)
-        e->eth = atof(tmp);
-      if (cont == 12)
-        e->xrp = atof(tmp);
-      // printf("[%s]\n",e->dia);
-      cont++;
-      ii = i + 1; // começo da proxima substring
+int ContaCpf(char *linha, Pessoa *contas, int ic){
+    char tmp[20];
+    limparString(tmp,20);
+    subString(tmp,linha,0,12);
+    long int cpf = atol(tmp); // cpf da linha
+    int i;
+    for(i = 0; i < ic; i++){
+        if(contas[i].cpf == cpf) return i; // retorna a posição do cpf na lista de contas
     }
-    i++;
-  }
 }
 
-int main() {
-  Pessoa contas[10]; // lista de contas
-  Moeda moedas[10];
-  Extrato extratos[100];
-  char palavra[400];                 // variavel para pegar as linhas do arquivo
-  int ic = 0, im = 0, ie = 0, i = 0; // i = index
-  // ic = i conta, im = i moeda, ie = i extrato
-  FILE *arquivo;                      // arquivo
-  arquivo = fopen("contas.txt", "r"); // le o arquivo de contas
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo); // pegar a linha do arquivo
-    buildP(palavra, &contas[ic]); // colocar todas as info na lista de contas
-    ic++;
-  }
-  fclose(arquivo); // fecha o arquivo de contas
+void buildP(char *linha, Pessoa *l){
+    char tmp[100]; // tmp = substring da linha
+    int i = 0, ii = 0, cont = 0;
+    // i = index da linha, ii = index começo da substring
+    l->cont = 0; // certificar que inicialmente o valor seja 0
+    limparString(l->nome,100); // limpar o endereço do nome
+    while(linha[i] != '\0'){
+        if(linha[i] == ',' || linha[i] == '\n'){
+            limparString(tmp,100); // limpa a substring
+            subString(tmp,linha,ii,i); // pega a substring
+            if(cont == 0) l->cpf = atol(tmp);
+            if(cont == 1) l->senha = atoi(tmp);
+            if(cont == 2) strcat(l->nome,tmp);
+            if(cont == 3) l->reais = atof(tmp);
+            if(cont == 4) l->btc = atof(tmp);
+            if(cont == 5) l->eth = atof(tmp);
+            if(cont == 6) l->xrp = atof(tmp);
+            cont++;
+            ii = i+1; // começo da proxima substring
+        }
+        i++;
+    }
+}
+void buildM(char *linha, Moeda *m){
+    char tmp[100]; // tmp = substring da linha
+    int i = 0, ii = 0, cont = 0;
+    // i = index da linha, ii = index começo da substring
+    limparString(m->nome,10); // limpar o endereço do nome da moeda
+    while(linha[i] != '\0'){
+        if(linha[i] == ',' || linha[i] == '\n'){
+            limparString(tmp,100); // limpa a substring
+            subString(tmp,linha,ii,i); // pega a substring
+            if(cont == 0) strcat(m->nome,tmp);
+            if(cont == 1) m->ct = atof(tmp);
+            if(cont == 2) m->txc = atof(tmp);
+            if(cont == 3) m->txv = atof(tmp);
+            cont++;
+            ii = i+1; // começo da proxima substring
+        }
+        i++;
+    }
+}
+void buildE(char*linha, Pessoa *p){
+    char tmp[100]; // tmp = substring da linha
+    int i = 0, ii = 0, cont = 0;
+    limparString(p->extratos[p->cont].moeda,10); // limpar o endereço da moeda
+    limparString(p->extratos[p->cont].dia,10); // limpar o endereço da dia
+    limparString(p->extratos[p->cont].hora,5); // limpar o endereço da hora
+    limparString(p->extratos[p->cont].acao,1); // limpar o endereço da acao
+    while(linha[i] != '\0'){
+        if(linha[i] == ',' || linha[i] == '\n'){
+            limparString(tmp,100); // limpa a substring
+            subString(tmp,linha,ii,i); // pega a substring
+            // cont 0 e 1 sao o nome e o cpf que ja estao na lista de contas
+            if(cont == 2) strcat(p->extratos[p->cont].dia,tmp);
+            if(cont == 3) strcat(p->extratos[p->cont].hora,tmp);
+            if(cont == 4) strcat(p->extratos[p->cont].acao,tmp);
+            if(cont == 5) p->extratos[p->cont].valor = atof(tmp);
+            if(cont == 6) strcat(p->extratos[p->cont].moeda,tmp);
+            if(cont == 7) p->extratos[p->cont].ct = atof(tmp);
+            if(cont == 8) p->extratos[p->cont].tx = atof(tmp);
+            if(cont == 9) p->extratos[p->cont].reais = atof(tmp);
+            if(cont == 10) p->extratos[p->cont].btc = atof(tmp);
+            if(cont == 11) p->extratos[p->cont].eth = atof(tmp);
+            if(cont == 12) p->extratos[p->cont].xrp = atof(tmp);
+            cont++;
+            ii = i+1; // começo da proxima substring
+        }
+        i++;
+    }
+    p->cont = p->cont + 1;
+}
 
-  arquivo = fopen("moedas.txt", "r"); // le o arquivo de moedas
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo); // pegar a linha do arquivo
-    buildM(palavra, &moedas[im]);
-    // colocar todas as info na lista de moedas
-    im++;
-  }
-  fclose(arquivo); // fecha o arquivo de moedas
+void saldo(){
+}
+void extrato(){
+}
+void depositar(){
+}
+void sacar(){
+}
+void comprar(){
+}
+void vender(){
+}
+void atualizar(){
+}
+void logar(long int cpf, Pessoa *contas, int ic){
+    while(1){
+        char linha[20];
+        int senha, i;
+        limparString(linha,20);
+        printf("Digite o seu CPF: ");
+        cpf = atol(fgets(linha,20,stdin));
+        limparString(linha,20);
+        printf("Digite a senha: ");
+        senha = atoi(fgets(linha,20,stdin));
+        for(i = 0; i < ic; i++){
+            if(cpf == contas[i].cpf && senha == contas[i].senha){
+                printf("Login realizado com sucesso\n");
+                return;
+            } else if(i == ic-1) printf("Login falhou, login ou senha errada\n");
+        }
+    }
+}
+void menu(long int cpf, Pessoa *contas, Moeda *moedas, int ic, int im){
+    int cont = 0;
+    char lixo;
+    while(1){
+        printf("+--------------------------+\n");
+        printf("|           Menu           |\n");
+        printf("+--------------------------+\n");
+        printf("| 1 - Consultar Saldo      |\n");
+        printf("| 2 - Consultar Extrato    |\n");
+        printf("| 3 - Depositar            |\n");
+        printf("| 4 - Sacar                |\n");
+        printf("| 5 - Comprar Criptomoedas |\n");
+        printf("| 6 - Vender Criptomoedas  |\n");
+        printf("| 7 - Atualizar Cotação    |\n");
+        printf("| 8 - Sair                 |\n");
+        printf("+--------------------------+\n");
+        printf("Digite o numero da ação desejada: ");
+        scanf("%d",&cont);
+        scanf("%c",&lixo);
+        if(cont == 1) saldo(); // M
+        else if(cont == 2) extrato(); // R
+        else if(cont == 3) depositar(); // M
+        else if(cont == 4) sacar(); // M
+        else if(cont == 5) comprar(); // R
+        else if(cont == 6) vender(); // R
+        else if(cont == 7) atualizar(); // M
+        else if(cont == 8) return;
+        else printf("opção invalida\n");
+    }
+}
+int main(){
+    Pessoa contas[10]; // lista de contas
+    Moeda moedas[10];
+    char palavra[400], tmp[20]; // variavel para pegar as linhas do arquivo
+    int ic = 0, im = 0, ie = 0, i = 0; //i = index
+    // ic = i conta, im = i moeda, ie = i extrato
+    long int cpf;
+    FILE *arquivo; // arquivo
 
-  arquivo = fopen("extrato.txt", "r"); // le o arquivo de contas
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo);   // pegar a linha do arquivo
-    buildE(palavra, &extratos[ie]); // colocar todas as info na lista de contas
-    ie++;
-  }
-  fclose(arquivo); // fecha o arquivo de contas
+    arquivo = fopen("contas.txt","r"); // le o arquivo de contas
+    while(!feof(arquivo)){
+        fgets(palavra,400,arquivo); // pegar a linha do arquivo
+        buildP(palavra, &contas[ic]); // colocar todas as info na lista de contas
+        ic++;
+    } // ic = quantidade de contas + 1
+    fclose(arquivo); // fecha o arquivo de contas
 
-  /*
-      for(i = 0; i < ic-1; i++){
-          // imprimir todos os dados das contas
-          printf("[%s] [%s] [%ld] [%f] [%f] [%f] [%f]\n",
-          contas[i].nome,contas[i].senha,contas[i].cpf,
-          contas[i].reais,contas[i].btc,contas[i].eth,
-          contas[i].xrp);
-      } // ic = quantidade de contas + 1
-      for(i = 0; i < im-1; i++){
-          // imprimir todos os dados das moedas
-          printf("[%s] [%f] [%f] [%f]\n",
-          moedas[i].nome, moedas[i].ct, moedas[i].txc,
-          moedas[i].txv);
-      } // im = quantidade de moedas + 1
-  */
+    arquivo = fopen("moedas.txt","r"); // le o arquivo de moedas
+    while(!feof(arquivo)){
+        fgets(palavra,400,arquivo); // pegar a linha do arquivo
+        buildM(palavra, &moedas[im]);
+        // colocar todas as info na lista de moedas
+        im++;
+    } // im = quantidade de moedas + 1
+    fclose(arquivo); // fecha o arquivo de moedas
 
-  for (i = 0; i < ie - 1; i++) {
-    // imprimir todos os dados dos extratos
-    printf(
-        "[%ld] [%s] [%s] [%s] [%s] [%f] [%s] [%f] [%f] [%f] [%f] [%f] [%f]\n",
-        extratos[i].cpf, extratos[i].nome, extratos[i].dia, extratos[i].hora,
-        extratos[i].acao, extratos[i].valor, extratos[i].moeda, extratos[i].ct,
-        extratos[i].tx, extratos[i].reais, extratos[i].btc, extratos[i].eth,
-        extratos[i].xrp);
-  } // ie = quantidade de extratos + 1
-  return 0;
+    arquivo = fopen("extrato.txt","r"); // le o arquivo de extrato
+    while(!feof(arquivo)){
+        fgets(palavra,400,arquivo); // pegar a linha do arquivo
+        buildE(palavra, &contas[ContaCpf(palavra, contas, ic-1)]);
+        // colocar todas as info na lista de extratos dentro da conta
+    }
+    fclose(arquivo); // fecha o arquivo de extratos
+    /* // teste pra ver se todas informacoes estao sendo guardadas de forma correta
+    for(i = 0; i < ic-1; i++){
+        // imprimir todos os dados das contas
+        printf("[%s] [%d] [%ld] [%f] [%f] [%f] [%f]\n",
+            contas[i].nome,contas[i].senha,contas[i].cpf,
+            contas[i].reais,contas[i].btc,contas[i].eth,
+            contas[i].xrp);
+        int j;
+        for(j = 0; j < contas[i].cont; j++){ // imprime todos extratos da conta
+            printf("[%s] [%s] [%s] [%f] [%s] [%f] [%f] [%f] [%f] [%f] [%f]\n",
+                contas[i].extratos[j].dia,   contas[i].extratos[j].hora,
+                contas[i].extratos[j].acao,  contas[i].extratos[j].valor,
+                contas[i].extratos[j].moeda, contas[i].extratos[j].ct,
+                contas[i].extratos[j].tx,    contas[i].extratos[j].reais,
+                contas[i].extratos[j].btc,   contas[i].extratos[j].eth,
+                contas[i].extratos[j].xrp
+                );
+        }
+    } // ic = quantidade de contas + 1
+    for(i = 0; i < im-1; i++){
+        // imprimir todos os dados das moedas
+        printf("[%s] [%f] [%f] [%f]\n",
+            moedas[i].nome, moedas[i].ct, moedas[i].txc,
+            moedas[i].txv);
+    } // im = quantidade de moedas + 1
+    */
+    while(1){
+        logar(cpf,contas,ic-1);
+        menu(cpf,contas,moedas,ic,im);
+    }
+    return 0;
 }
