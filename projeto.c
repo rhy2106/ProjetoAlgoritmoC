@@ -53,7 +53,7 @@ void subString(char * tmp, char *linha, int comeco, int fim){
     // seja armazenada no começo da variavel 'tmp' 
     strcat(tmp,palavra);
 }
-int ContaCpf(char *linha, Pessoa *contas, int ic){
+int ContaCpfC(char *linha, Pessoa *contas, int ic){
     char tmp[20];
     limparString(tmp,20);
     subString(tmp,linha,0,12);
@@ -139,7 +139,20 @@ void buildE(char*linha, Pessoa *p){
 
 void saldo(){
 }
-void extrato(){
+void extrato(Pessoa conta){
+    int i = 0;
+    printf("\nCPF: %ld Nome: %s\n\n", conta.cpf, conta.nome);
+    for(i = 0; i < conta.cont; i++){
+        printf("%s %s %s %8.2f %-4s CT: %8.2f TX: %8.2f REAL: %8.3f BTC: %8.3f ETH: %8.3f XRP: %8.3f\n",
+            conta.extratos[i].dia,   conta.extratos[i].hora,
+            conta.extratos[i].acao,  conta.extratos[i].valor,
+            conta.extratos[i].moeda, conta.extratos[i].ct,
+            conta.extratos[i].tx,    conta.extratos[i].reais,
+            conta.extratos[i].btc,   conta.extratos[i].eth,
+            conta.extratos[i].xrp
+            );
+    }
+    printf("\n");
 }
 void depositar(){
 }
@@ -151,8 +164,9 @@ void vender(){
 }
 void atualizar(){
 }
-void logar(long int cpf, Pessoa *contas, int ic){
+int logar(Pessoa *contas, int ic){
     while(1){
+        long int cpf;
         char linha[20];
         int senha, i;
         limparString(linha,20);
@@ -164,13 +178,14 @@ void logar(long int cpf, Pessoa *contas, int ic){
         for(i = 0; i < ic; i++){
             if(cpf == contas[i].cpf && senha == contas[i].senha){
                 printf("Login realizado com sucesso\n");
-                return;
+                printf("%s %ld\n",contas[i].nome,contas[i].cpf);
+                return i;
             } else if(i == ic-1) printf("Login falhou, login ou senha errada\n");
         }
     }
 }
-void menu(long int cpf, Pessoa *contas, Moeda *moedas, int ic, int im){
-    int cont = 0;
+void menu(int id, Pessoa *contas, Moeda *moedas, int ic, int im){
+    int cont = 0; // id = index da conta da pessoa logada na lista de contas
     char lixo;
     while(1){
         printf("+--------------------------+\n");
@@ -189,7 +204,7 @@ void menu(long int cpf, Pessoa *contas, Moeda *moedas, int ic, int im){
         scanf("%d",&cont);
         scanf("%c",&lixo);
         if(cont == 1) saldo(); // M
-        else if(cont == 2) extrato(); // R
+        else if(cont == 2) extrato(contas[id]); // R 
         else if(cont == 3) depositar(); // M
         else if(cont == 4) sacar(); // M
         else if(cont == 5) comprar(); // R
@@ -205,7 +220,6 @@ int main(){
     char palavra[400], tmp[20]; // variavel para pegar as linhas do arquivo
     int ic = 0, im = 0, ie = 0, i = 0; //i = index
     // ic = i conta, im = i moeda, ie = i extrato
-    long int cpf;
     FILE *arquivo; // arquivo
 
     arquivo = fopen("contas.txt","r"); // le o arquivo de contas
@@ -228,11 +242,11 @@ int main(){
     arquivo = fopen("extrato.txt","r"); // le o arquivo de extrato
     while(!feof(arquivo)){
         fgets(palavra,400,arquivo); // pegar a linha do arquivo
-        buildE(palavra, &contas[ContaCpf(palavra, contas, ic-1)]);
+        buildE(palavra, &contas[ContaCpfC(palavra, contas, ic-1)]);
         // colocar todas as info na lista de extratos dentro da conta
     }
     fclose(arquivo); // fecha o arquivo de extratos
-    /* // teste pra ver se todas informacoes estao sendo guardadas de forma correta
+    /* // testes para ver se os dados tao armazenado corretamente
     for(i = 0; i < ic-1; i++){
         // imprimir todos os dados das contas
         printf("[%s] [%d] [%ld] [%f] [%f] [%f] [%f]\n",
@@ -259,8 +273,7 @@ int main(){
     } // im = quantidade de moedas + 1
     */
     while(1){
-        logar(cpf,contas,ic-1);
-        menu(cpf,contas,moedas,ic,im);
+        menu(logar(contas,ic-1),contas,moedas,ic-1,im-1);
     }
     return 0;
 }
