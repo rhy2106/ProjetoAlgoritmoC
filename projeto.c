@@ -337,7 +337,7 @@ int main(){
     fclose(arquivo); // fecha o arquivo de extratos
     
     while(1){
-        // testes para ver se os dados tao armazenado corretamente
+        /* // testes para ver se os dados tao armazenado corretamente
         for(i = 0; i < ic-1; i++){
             // imprimir todos os dados das contas
             printf("[%s] [%d] [%ld] [%f] [%f] [%f] [%f]\n",
@@ -362,7 +362,7 @@ int main(){
                 moedas[i].nome, moedas[i].ct, moedas[i].txc,
                 moedas[i].txv);
         } // im = quantidade de moedas + 1
-        
+        */
         menu(logar(contas,ic-1),contas,moedas,ic-1,im-1);
     }
     return 0;
