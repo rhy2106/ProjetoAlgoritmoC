@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 typedef struct {
   char moeda[10];
@@ -51,5 +52,9 @@ int logar(Pessoa *contas, int ic);
 int menu();
 void vender(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
 void extrato(Pessoa conta);
+void saldo(Pessoa conta);
+void depositar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
+void sacar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
+void atualizar(Moeda *moedas);
 
 #endif
