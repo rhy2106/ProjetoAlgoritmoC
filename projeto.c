@@ -176,7 +176,7 @@ void adicionarExtrato(Pessoa *contas, Moeda moeda, char *acao, float valor, int 
     arquivo = fopen("extrato.txt","w");
     for(i = 0; i < ic; i++){ // reescreve o arquivo de extratos
         for(j = 0; j < contas[i].cont; j++){
-            fprintf(arquivo,"%ld,%s,%s,%s,%s,%f,%s,%f,%f,%f,%f,%f,%f\n",
+            fprintf(arquivo,"%ld,%s,%s,%s,%s,%.4f,%s,%f,%f,%.4f,%.4f,%.4f,%.4f\n",
             contas[i].cpf, contas[i].nome,
             contas[i].extratos[j].dia,   contas[i].extratos[j].hora,
             contas[i].extratos[j].acao,  contas[i].extratos[j].valor,
@@ -222,7 +222,9 @@ void comprar(Pessoa *contas, Moeda *moedas, int ic, int im, int id){
         limparString(opcao,10);
         printf("Digite que moeda voce deseja comprar: (Digite em letra maiuscula)\n");
         printf("Opcoes: BTC, ETH, XRP\n");
+        printf("Digite 0 para retornar ao menu\n");
         scanf("%s",opcao);
+        if(opcao[0] == '0') return;
         while(i < im){
             if(!strcmp(moedas[i].nome,opcao)) {
                 continuar = 1;
@@ -234,10 +236,12 @@ void comprar(Pessoa *contas, Moeda *moedas, int ic, int im, int id){
         printf("Moeda invalida, digite novamente\n");
     }
     while(1){ // pergunta o valor desejado em reais da compra 
-        printf("Digite o valor da moeda que deseja comprar em reais: ");
+        printf("Digite o valor da moeda que deseja comprar em reais:\n");
+        printf("Digite 0 para retornar ao menu\n");
         scanf("%f", &valor);
         scanf("%c", &lixo);
-        if(valor <= 0 || valor > contas[id].reais){
+        if(valor == 0) return;
+        if(valor < 0 || valor > contas[id].reais){
             printf("Valor invalido digite novamente\n");
             continue;
         }// verifica se o valor é valido
@@ -249,7 +253,49 @@ void comprar(Pessoa *contas, Moeda *moedas, int ic, int im, int id){
     if(i == 3) contas[id].xrp += (valor/moedas[i].ct)*(1-moedas[i].txc);
     adicionarExtrato(contas, moedas[i], "+", valor,id,ic);
 }
-void vender(){
+void vender(Pessoa *contas, Moeda *moedas, int ic, int im, int id){
+    int continuar, i;
+    float valor;
+    char opcao[10], lixo;
+
+    continuar = 0;
+    while(1){ // pergunta a moeda que o usuario deseja vender ate ser inserido uma moeda valida
+        i = 0;
+        limparString(opcao,10);
+        printf("Digite que moeda voce deseja vender: (Digite em letra maiuscula)\n");
+        printf("Opcoes: BTC, ETH, XRP\n");
+        printf("Digite 0 para retornar ao menu\n");
+        scanf("%s",opcao);
+        if(opcao[0] == '0') return;
+        while(i < im){
+            if(!strcmp(moedas[i].nome,opcao)) {
+                continuar = 1;
+                break;
+            }
+            i++;
+        }
+        if(continuar) break;
+        printf("Moeda invalida, digite novamente\n");
+    }
+    while(1){ // pergunta o valor desejado em reais da venda 
+        printf("Digite o valor da moeda que deseja vender em reais:\n");
+        printf("Digite 0 para retornar ao menu\n");
+        scanf("%f", &valor);
+        scanf("%c", &lixo);
+        if(valor == 0) return;
+        if(valor < 0 || (valor/moedas[i].ct > contas[id].btc && i == 1) ||
+        (valor/moedas[i].ct > contas[id].eth && i == 2) ||
+        (valor/moedas[i].ct > contas[id].xrp && i == 3) ){
+            printf("Valor invalido digite novamente\n");
+            continue;
+        }// verifica se o valor é valido
+        contas[id].reais += valor*(1-moedas[i].txv);
+        break;
+    }
+    if(i == 1) contas[id].btc -= (valor/moedas[i].ct);
+    if(i == 2) contas[id].eth -= (valor/moedas[i].ct);
+    if(i == 3) contas[id].xrp -= (valor/moedas[i].ct);
+    adicionarExtrato(contas, moedas[i], "-", valor,id,ic);
 }
 void atualizar(){
 }
@@ -297,7 +343,7 @@ void menu(int id, Pessoa *contas, Moeda *moedas, int ic, int im){
         else if(cont == 3) depositar(); // M
         else if(cont == 4) sacar(); // M
         else if(cont == 5) comprar(contas,moedas,ic,im,id); // R
-        else if(cont == 6) vender(); // R
+        else if(cont == 6) vender(contas,moedas,ic,im,id); // R
         else if(cont == 7) atualizar(); // M
         else if(cont == 8) return;
         else printf("opção invalida\n");
@@ -337,7 +383,8 @@ int main(){
     fclose(arquivo); // fecha o arquivo de extratos
     
     while(1){
-        /* // testes para ver se os dados tao armazenado corretamente
+        /*
+        // testes para ver se os dados tao armazenado corretamente
         for(i = 0; i < ic-1; i++){
             // imprimir todos os dados das contas
             printf("[%s] [%d] [%ld] [%f] [%f] [%f] [%f]\n",
