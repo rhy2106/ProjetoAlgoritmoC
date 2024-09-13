@@ -41,19 +41,19 @@ int main() {
     while (1) {
       cont = menu();
       if (cont == 1)
-        saldo(); // M
+        saldo(contas[id]); // M
       else if (cont == 2)
         extrato(contas[id]); // R
       else if (cont == 3)
-        depositar(); // M
+        depositar(contas, moedas, ic, im, id); // M
       else if (cont == 4)
-        sacar(); // M
+        sacar(contas, moedas, ic, im, id); // M
       else if (cont == 5)
         comprar(contas, moedas, ic, im, id); // R
       else if (cont == 6)
         vender(contas, moedas, ic, im, id); // R
       else if (cont == 7)
-        atualizar(); // M
+        atualizar(moedas); // M
       else if (cont == 8)
         break;
       else
