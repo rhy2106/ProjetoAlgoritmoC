@@ -3,11 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void saldo() {}
-void depositar() {}
-void sacar() {}
-void atualizar() {}
-
 int main() {
   Pessoa contas[10]; // lista de contas
   Moeda moedas[10];
