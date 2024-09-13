@@ -14,7 +14,6 @@ int logar(Pessoa *contas, int ic) {
     for (i = 0; i < ic; i++) {
       if (cpf == contas[i].cpf && senha == contas[i].senha) {
         printf("Login realizado com sucesso\n");
-        printf("%s %ld\n", contas[i].nome, contas[i].cpf);
         return i;
       } else if (i == ic - 1)
         printf("Login falhou, login ou senha errada\n");
