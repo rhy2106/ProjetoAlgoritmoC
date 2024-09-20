@@ -1,6 +1,9 @@
 Objetivo do projeto:
+   
     Criar um programa que simule um banco, onde é possivel realizar operações de saque, deposito, compras e vendas de criptomoedas
+
 Forma de compilação e execução
+    
     Forma de compilação em PowerShell:
         gcc -c funcoes.c -o funcoes.o                                      
         gcc -c atualizar.c -o atualizar.o  
@@ -15,7 +18,9 @@ Forma de compilação e execução
         gcc -o programa projeto.c sla.a
     Forma de execução em PowerShell:
         ./programa
+
 Explicação sobre a forma de uso do programa:
+    
     O programa inicia Pedindo o seu Login (CPF) e Senha.
     Após inserir o login e senha correto você sera direcionado ao menu.
     No Menu estão presentes as 8 funções que podem ser executadas digitando o seu numero.
@@ -37,6 +42,8 @@ Explicação sobre a forma de uso do programa:
         Ao ultilizar a função "atualizar cotação" o programa ira atualizar a cotação e mostrar os novos valores de cotação
     8 - Sair
         Ao ultilizar a função ira redirecionar você ao Login ou ira fechar o programa
+
 Nomes:
+   
     Rafael Hideaki Yara RA: 24.124.056-3
     Maurício Yudi Kuniyoshi RA: 24.124.032-4
