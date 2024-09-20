@@ -43,10 +43,7 @@ typedef struct {
 void limparString(char *p, int tam);
 void subString(char *tmp, char *linha, int comeco, int fim);
 int ContaCpfC(char *linha, Pessoa *contas, int ic);
-void buildP(char *linha, Pessoa *l);
-void buildE(char *linha, Pessoa *p);
-void adicionarExtrato(Pessoa *contas, Moeda moeda, char *acao, float valor,
-                      int id, int ic);
+void adicionarExtrato(Pessoa *contas, Moeda moeda, char *acao, float valor,int id, int ic);
 void comprar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
 int logar(Pessoa *contas, int ic);
 int menu();
@@ -55,6 +52,6 @@ void extrato(Pessoa conta);
 void saldo(Pessoa conta);
 void depositar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
 void sacar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
-void atualizar(Moeda *moedas);
+void atualizar(Moeda *moedas,int im);
 
 #endif
