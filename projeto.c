@@ -6,35 +6,22 @@
 int main() {
   Pessoa contas[10]; // lista de contas
   Moeda moedas[10];
-  char palavra[400], tmp[20], fim; // variavel para pegar as linhas do arquivo
-  int ic = 0, id, im = 0, ie = 0, cont; // i = index
+  char fim;
+  int ic = 0, id, im = 0, cont; // i = index
   // ic = i conta, im = i moeda, ie = i extrato
   FILE *arquivo; // arquivo
 
-  arquivo = fopen("contas.txt", "r"); // le o arquivo de contas
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo); // pegar a linha do arquivo
-    buildP(palavra, &contas[ic]); // colocar todas as info na lista de contas
+  arquivo = fopen("contas.bin", "rb"); // le o arquivo de contas
+  while (fread(&contas[ic],sizeof(Pessoa),1,arquivo)) {
     ic++;
   }                // ic = quantidade de contas + 1
   fclose(arquivo); // fecha o arquivo de contas
 
-  arquivo = fopen("moedas.txt", "r"); // le o arquivo de moedas
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo); // pegar a linha do arquivo
-    buildM(palavra, &moedas[im]);
-    // colocar todas as info na lista de moedas
+  arquivo = fopen("moedas.bin", "rb"); // le o arquivo de moedas
+  while (fread(&moedas[im],sizeof(Moeda),1,arquivo)) {
     im++;
   }                // im = quantidade de moedas + 1
   fclose(arquivo); // fecha o arquivo de moedas
-
-  arquivo = fopen("extrato.txt", "r"); // le o arquivo de extrato
-  while (!feof(arquivo)) {
-    fgets(palavra, 400, arquivo); // pegar a linha do arquivo
-    buildE(palavra, &contas[ContaCpfC(palavra, contas, ic - 1)]);
-    // colocar todas as info na lista de extratos dentro da conta
-  }
-  fclose(arquivo); // fecha o arquivo de extratos
 
   while (1) {
     id = logar(contas, ic - 1);
@@ -53,7 +40,7 @@ int main() {
       else if (cont == 6)
         vender(contas, moedas, ic, im, id); // R
       else if (cont == 7)
-        atualizar(moedas); // M
+        atualizar(moedas, im); // M
       else if (cont == 8)
         break;
       else
