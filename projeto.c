@@ -6,7 +6,7 @@
 int main() {
   Pessoa contas[10]; // lista de contas
   Moeda moedas[10];
-  char fim;
+  char lixo,fim;
   int ic = 0, id, im = 0, cont; // i = index
   // ic = i conta, im = i moeda, ie = i extrato
   FILE *arquivo; // arquivo
@@ -49,6 +49,7 @@ int main() {
     while (1) {
       printf("Deseja finalizar o programa? (S/N)\n");
       scanf("%c", &fim);
+      scanf("%c",%lixo);
       if (fim == 'S')
         return 0;
       else if (fim == 'N')
