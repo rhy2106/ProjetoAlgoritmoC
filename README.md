@@ -12,7 +12,7 @@ Forma de compilação em PowerShell:
      gcc -c depositar.c -o depositar.o
      gcc -c extrato.c -o extrato.o    
      gcc -c sacar.c -o sacar.o    
-     gcc -c logar.c -o logar.o
+     gcc -c login.c -o login.o
      ar rcs sla.a funcoes.o atualizar.o comprar.o vender.o saldo.o depositar.o extrato.o sacar.o logar.o
      gcc -o converter converter.c sla.a
      gcc -o programa projeto.c sla.a
