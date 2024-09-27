@@ -4,7 +4,8 @@ Objetivo do projeto:
 
 Forma de compilação e execução
     
-    Forma de compilação em PowerShell:
+   Forma de compilação em PowerShell:
+    
         gcc -c funcoes.c -o funcoes.o                                      
         gcc -c atualizar.c -o atualizar.o  
         gcc -c comprar.c -o comprar.o    
@@ -15,9 +16,12 @@ Forma de compilação e execução
         gcc -c sacar.c -o sacar.o    
         gcc -c logar.c -o logar.o
         ar rcs sla.a funcoes.o atualizar.o comprar.o vender.o saldo.o depositar.o extrato.o sacar.o logar.o
+        gcc -o converter converter.c sla.a
         gcc -o programa projeto.c sla.a
-    Forma de execução em PowerShell:
-        ./programa
+   Forma de execução em PowerShell:
+
+      ./converter
+      ./programa
 
 Explicação sobre a forma de uso do programa:
     
