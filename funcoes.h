@@ -46,6 +46,7 @@ int ContaCpfC(char *linha, Pessoa *contas, int ic);
 void adicionarExtrato(Pessoa *contas, Moeda moeda, char *acao, float valor,int id, int ic);
 void buildP(char *linha, Pessoa *l);
 void buildE(char *linha, Pessoa *p);
+void buildM(char *linha, Moeda *m);
 void adicionarExtrato(Pessoa *contas, Moeda moeda, char *acao, float valor, int id, int ic);
 void comprar(Pessoa *contas, Moeda *moedas, int ic, int im, int id);
 int logar(Pessoa *contas, int ic);
