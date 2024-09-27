@@ -33,10 +33,10 @@ int menu() {
     printf("| 4 - Sacar                |\n");
     printf("| 5 - Comprar Criptomoedas |\n");
     printf("| 6 - Vender Criptomoedas  |\n");
-    printf("| 7 - Atualizar Cotação    |\n");
+    printf("| 7 - Atualizar Cotacao    |\n");
     printf("| 8 - Sair                 |\n");
     printf("+--------------------------+\n");
-    printf("Digite o numero da ação desejada: ");
+    printf("Digite o numero da acao desejada: ");
     scanf("%d", &cont);
     scanf("%c", &lixo);
     return cont;
