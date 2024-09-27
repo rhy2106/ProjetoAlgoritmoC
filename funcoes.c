@@ -42,7 +42,7 @@ void buildP(char *linha, Pessoa *l) {
       limparString(tmp, 100);       // limpa a substring
       subString(tmp, linha, ii, i); // pega a substring
       if (cont == 0)
-        l->cpf = atol(tmp);
+        l->cpf = strtol(tmp, NULL, 10);
       if (cont == 1)
         l->senha = atoi(tmp);
       if (cont == 2)
