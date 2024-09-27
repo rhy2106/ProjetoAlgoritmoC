@@ -1,25 +1,23 @@
 Objetivo do projeto:
    
     Criar um programa que simule um banco, onde é possivel realizar operações de saque, deposito, compras e vendas de criptomoedas
-
-Forma de compilação e execução
     
-   Forma de compilação em PowerShell:
+Forma de compilação em PowerShell:
     
-        gcc -c funcoes.c -o funcoes.o                                      
-        gcc -c atualizar.c -o atualizar.o  
-        gcc -c comprar.c -o comprar.o    
-        gcc -c vender.c -o vender.o  
-        gcc -c saldo.c -o saldo.o  
-        gcc -c depositar.c -o depositar.o
-        gcc -c extrato.c -o extrato.o    
-        gcc -c sacar.c -o sacar.o    
-        gcc -c logar.c -o logar.o
-        ar rcs sla.a funcoes.o atualizar.o comprar.o vender.o saldo.o depositar.o extrato.o sacar.o logar.o
-        gcc -o converter converter.c sla.a
-        gcc -o programa projeto.c sla.a
-   Forma de execução em PowerShell:
-
+     gcc -c funcoes.c -o funcoes.o                                      
+     gcc -c atualizar.c -o atualizar.o  
+     gcc -c comprar.c -o comprar.o    
+     gcc -c vender.c -o vender.o  
+     gcc -c saldo.c -o saldo.o  
+     gcc -c depositar.c -o depositar.o
+     gcc -c extrato.c -o extrato.o    
+     gcc -c sacar.c -o sacar.o    
+     gcc -c logar.c -o logar.o
+     ar rcs sla.a funcoes.o atualizar.o comprar.o vender.o saldo.o depositar.o extrato.o sacar.o logar.o
+     gcc -o converter converter.c sla.a
+     gcc -o programa projeto.c sla.a
+Forma de execução em PowerShell:
+   
       ./converter
       ./programa
 
