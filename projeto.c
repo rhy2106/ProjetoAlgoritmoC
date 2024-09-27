@@ -10,7 +10,6 @@ int main() {
   int ic = 0, id, im = 0, cont; // i = index
   // ic = i conta, im = i moeda, ie = i extrato
   FILE *arquivo; // arquivo
-
   arquivo = fopen("contas.bin", "rb"); // le o arquivo de contas
   while (fread(&contas[ic],sizeof(Pessoa),1,arquivo)) {
     ic++;
@@ -22,7 +21,6 @@ int main() {
     im++;
   }                // im = quantidade de moedas + 1
   fclose(arquivo); // fecha o arquivo de moedas
-
   while (1) {
     id = logar(contas, ic - 1);
     while (1) {
@@ -49,7 +47,7 @@ int main() {
     while (1) {
       printf("Deseja finalizar o programa? (S/N)\n");
       scanf("%c", &fim);
-      scanf("%c",%lixo);
+      scanf("%c",&lixo);
       if (fim == 'S')
         return 0;
       else if (fim == 'N')
