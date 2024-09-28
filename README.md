@@ -15,7 +15,7 @@ Forma de compilação em PowerShell:
      gcc -c login.c -o login.o
      ar rcs sla.a funcoes.o atualizar.o comprar.o vender.o saldo.o depositar.o extrato.o sacar.o login.o
      gcc -o converter converter.c sla.a
-     gcc -o programa projeto.c sla.a
+     gcc -o programa main.c sla.a
 Forma de execução em PowerShell:
    
       ./converter
