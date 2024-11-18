@@ -2,17 +2,19 @@
 
 int logar(Pessoa *contas, int ic) {
   while (1) {
-    long int cpf;
+    char cpf[12];
     char linha[20];
     int senha, i;
-    limparString(linha, 20);
+    limparString(cpf, 11);
     printf("Digite o seu CPF: ");
-    cpf = atol(fgets(linha, 20, stdin));
+    scanf("%s",&cpf);
+    getchar();
     limparString(linha, 20);
     printf("Digite a senha: ");
-    senha = atoi(fgets(linha, 20, stdin));
+    scanf("%s",&linha);
+    senha = atoi(linha);
     for (i = 0; i < ic; i++) {
-      if (cpf == contas[i].cpf && senha == contas[i].senha) {
+      if (strcmp(cpf,contas[i].cpf) == 0 && senha == contas[i].senha) {
         printf("Login realizado com sucesso\n");
         return i;
       } else if (i == ic - 1)
