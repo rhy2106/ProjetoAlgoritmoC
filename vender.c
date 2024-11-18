@@ -10,9 +10,12 @@ void vender(Pessoa *contas, Moeda *moedas, int ic, int im, int id) {
               // uma moeda valida
     i = 0;
     limparString(opcao, 10);
-    printf(
-        "Digite que moeda voce deseja vender: (Digite em letra maiuscula)\n");
-    printf("Opcoes: BTC, ETH, XRP\n");
+    printf("Digite que moeda voce deseja vender: (Digite em letra maiuscula)\n");
+    printf("Opcoes:\n");
+    for(i = 1; i < im; i++){
+        printf("- %s\n", moedas[i].nome);
+    }
+    i = 0;
     printf("Digite 0 para retornar ao menu\n");
     scanf("%s", opcao);
     if (opcao[0] == '0')
@@ -35,20 +38,13 @@ void vender(Pessoa *contas, Moeda *moedas, int ic, int im, int id) {
     scanf("%c", &lixo);
     if (valor == 0)
       return;
-    if (valor < 0 || (valor / moedas[i].ct > contas[id].btc && i == 1) ||
-        (valor / moedas[i].ct > contas[id].eth && i == 2) ||
-        (valor / moedas[i].ct > contas[id].xrp && i == 3)) {
+    if (valor < 0 || (valor / moedas[i].ct > contas[id].dinheiro[i])) {
       printf("Valor invalido digite novamente\n");
       continue;
     } // verifica se o valor é valido
-    contas[id].reais += valor * (1 - moedas[i].txv);
+    contas[id].dinheiro[0] += valor * (1 - moedas[i].txv);
     break;
   }
-  if (i == 1)
-    contas[id].btc -= (valor / moedas[i].ct);
-  if (i == 2)
-    contas[id].eth -= (valor / moedas[i].ct);
-  if (i == 3)
-    contas[id].xrp -= (valor / moedas[i].ct);
-  adicionarExtrato(contas, moedas[i], "-", valor, id, ic);
+  contas[id].dinheiro[i] -= (valor / moedas[i].ct);
+  adicionarExtrato(contas, moedas, "-", valor, id,im,i);
 }
