@@ -15,12 +15,12 @@ void sacar(Pessoa *contas, Moeda *moedas, int ic, int im, int id){
         scanf("%c", &lixo);
 
         if(valor == 0) return;
-        if(valor < 0 || (valor > contas[id].reais)){
+        if(valor < 0 || (valor > contas[id].dinheiro[0])){
             printf("Valor invalido, digiite novamente\n");
             continue;
         }
-        contas[id].reais = contas[id].reais - valor;
+        contas[id].dinheiro[0] = contas[id].dinheiro[0] - valor;
         break;
     }
-    adicionarExtrato(contas, moedas[i], "-", valor,id,ic);
+    adicionarExtrato(contas, moedas, "-", valor,id,im,i);
 }
