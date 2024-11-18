@@ -1,5 +1,10 @@
 #include "funcoes.h"
 
-void saldo(Pessoa conta){
-    printf("\nNome: %s \nCPF: %ld \nReais: %.2f \nBitcoin: %.3f \nEthereum: %.3f \nRipple: %.3f \n\n", conta.nome, conta.cpf, conta.reais, conta.btc, conta.eth, conta.xrp);
+void saldo(Pessoa conta, Moeda *moedas,int im){
+    int i = 0;
+    printf("Nome: %s\nCPF: %s\n", conta.nome, conta.cpf);
+    for(i = 0; i < im; i++){
+        printf("%s: %.3f\n", moedas[i].nome, conta.dinheiro[i]);
+    }
+    printf("\n");
 }
